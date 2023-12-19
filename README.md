@@ -1,12 +1,12 @@
 # Point-FEMAE: Towards Compact 3D Representations via Point Feature Enhancement Masked Autoencoders
 
-[comment]: <> ([![PWC]&#40;https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/instance-aware-dynamic-prompt-tuning-for-pre/3d-point-cloud-classification-on-modelnet40&#41;]&#40;https://paperswithcode.com/sota/3d-point-cloud-classification-on-modelnet40?p=instance-aware-dynamic-prompt-tuning-for-pre&#41;)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/towards-compact-3d-representations-via-point/few-shot-3d-point-cloud-classification-on-3)](https://paperswithcode.com/sota/few-shot-3d-point-cloud-classification-on-3?p=towards-compact-3d-representations-via-point)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/towards-compact-3d-representations-via-point/few-shot-3d-point-cloud-classification-on-4)](https://paperswithcode.com/sota/few-shot-3d-point-cloud-classification-on-4?p=towards-compact-3d-representations-via-point)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/towards-compact-3d-representations-via-point/3d-point-cloud-classification-on-modelnet40)](https://paperswithcode.com/sota/3d-point-cloud-classification-on-modelnet40?p=towards-compact-3d-representations-via-point)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/towards-compact-3d-representations-via-point/3d-point-cloud-classification-on-scanobjectnn)](https://paperswithcode.com/sota/3d-point-cloud-classification-on-scanobjectnn?p=towards-compact-3d-representations-via-point)
 
-[comment]: <> ([![PWC]&#40;https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/instance-aware-dynamic-prompt-tuning-for-pre/3d-point-cloud-classification-on-scanobjectnn&#41;]&#40;https://paperswithcode.com/sota/3d-point-cloud-classification-on-scanobjectnn?p=instance-aware-dynamic-prompt-tuning-for-pre&#41;)
 
-[comment]: <> ([![PWC]&#40;https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/instance-aware-dynamic-prompt-tuning-for-pre/few-shot-3d-point-cloud-classification-on-1&#41;]&#40;https://paperswithcode.com/sota/few-shot-3d-point-cloud-classification-on-1?p=instance-aware-dynamic-prompt-tuning-for-pre&#41;)
-
-This repository provides the official implementation of [**Towards Compact 3D Representations via Point Feature Enhancement Masked Autoencoders**](https://arxiv.org/abs/2304.07221) at AAAI 2024.
+This repository provides the official implementation of [**Towards Compact 3D Representations via Point Feature Enhancement Masked Autoencoders**](https://arxiv.org/abs/2312.10726) at AAAI 2024.
 
 
 ## 📨 News
@@ -67,7 +67,7 @@ First, the working directory is expected to be organized as below:
 <details><summary>click to expand 👈</summary>
 
 ```
-ICCV23-IDPT/
+AAAI24-PointFEMAE/
 ├── cfgs/
 ├── data/
 │   ├── ModelNet/ # ModelNet40
@@ -141,7 +141,7 @@ CUDA_VISIBLE_DEVICES=0 python main.py --config cfgs/pretrain_femae.yaml --exp_na
 ```
 If you want to try other models or change pre-training configuration, e.g., mask ratios, just create a new configuration file and pass its path to `--config`.
 
-For a quick start, we also have provided the pre-trained checkpoint of Point-FEMAE [[link](https://drive.google.com/file/d/13YGle0dkvmOZyIomqWiTkXgELawklOXB/view?usp=drive_link)].
+For a quick start, we also have provided the pre-trained checkpoint of Point-FEMAE [[link](https://drive.google.com/drive/folders/1q0A-yXC1fmKKg38fbaqIxM79lvXpj4AO?usp=drive_link)].
 
 ## 4. Tune pre-trained point cloud models on downstream tasks
 
@@ -190,9 +190,19 @@ CUDA_VISIBLE_DEVICES=0 python main.py --config cfgs/finetune_scan_hardest_femae.
 
 ```python
 # CUDA_VISIBLE_DEVICES=<GPU> python main.py --config cfgs/fewshot_femae.yaml --finetune_model --ckpts <path/to/pre-trained/model> --exp_name <output_file_name> --way <5 or 10> --shot <10 or 20> --fold <0-9>
-CUDA_VISIBLE_DEVICES=0 python main.py --config cfgs/fewshot_femae.yaml --finetune_model --ckpts ./ckpts/pretrained/femae-epoch-300.pth --exp_name fewshot_femae --way 5 --shot 10 --fold 0
+for WAY in 5 10
+do
+  for SHOT in 10 20
+  do
+    for FOLD in $(seq 0 9)
+    do
+      CUDA_VISIBLE_DEVICES=0 python main.py --config cfgs/fewshot_femae.yaml --finetune_model --ckpts ./ckpts/pretrained/femae-epoch-300.pth --exp_name fewshot_femae --way ${WAY} --shot ${SHOT} --fold ${FOLD}
+    done
+  done
+done
 ```
 </details>
+
 
 
 ### 4.3 Part Segmentation on ShapeNet-Part
@@ -209,7 +219,7 @@ python main.py --model pt_hmae_s1 --ckpts ../ckpts/pretrained/femae-epoch-300.pt
 
 
 ## 5. Validate with checkpoints
-For reproducibility, logs and checkpoints of tuned models via IDPT can be found in the table below.
+For reproducibility, logs and checkpoints of fine-tuned models of Point-FEMAE can be found in the table below.
 
 
 | Task              | Dataset           | Parameters            | log                                                                                                                   | Acc.       | Checkpoints Download                                                                                     |
@@ -227,7 +237,7 @@ For reproducibility, logs and checkpoints of tuned models via IDPT can be found 
 
 | Task              | Dataset      | log                                      | mIoUc  | mIoUi  | Checkpoints Download                                                                                     |
 |-------------------|--------------|------------------------------------------|------------|------------|------------|
-| Parg Segmentation | ShapeNetPart | [parg segmentation](https://drive.google.com/drive/folders/1GZB0EUTngmV-5MID4YHUOlqSsX0A6X2K?usp=drive_link) | 84.9  | 86.4 |[parg segmentation](https://drive.google.com/drive/folders/1GZB0EUTngmV-5MID4YHUOlqSsX0A6X2K?usp=drive_link)|
+| Parg Segmentation | ShapeNetPart | [parg segmentation](https://drive.google.com/drive/folders/1GZB0EUTngmV-5MID4YHUOlqSsX0A6X2K?usp=drive_link) | 84.9  | 86.3 |[parg segmentation](https://drive.google.com/drive/folders/1GZB0EUTngmV-5MID4YHUOlqSsX0A6X2K?usp=drive_link)|
 
 
 <!-- 💡***Notes***: For classification downstream tasks, we randomly select 5 seeds to obtain the best checkpoint. -->
@@ -260,25 +270,43 @@ python parse_test_res.py ./ckpts/fewshot/fewshot --multi-exp --few-shot
 ```
 </details>
 
-## 6. Bibliography
-If you find this code useful or use the toolkit in your work, please consider citing:
-```
-@article{zha2023instance,
-  title={Instance-aware Dynamic Prompt Tuning for Pre-trained Point Cloud Models},
-  author={Zha, Yaohua and Wang, Jinpeng and Dai, Tao and Chen, Bin and Wang, Zhi and Xia, Shu-Tao},
-  journal={arXiv preprint arXiv:2304.07221},
-  year={2023}
-}
-```
-and closely related work IDPT (ICCV 2023):
-```
-@article{zha2023instance,
-  title={Instance-aware Dynamic Prompt Tuning for Pre-trained Point Cloud Models},
-  author={Zha, Yaohua and Wang, Jinpeng and Dai, Tao and Chen, Bin and Wang, Zhi and Xia, Shu-Tao},
-  journal={arXiv preprint arXiv:2304.07221},
-  year={2023}
-}
-```
+[comment]: <> (## 6. Bibliography)
+
+[comment]: <> (If you find this code useful or use the toolkit in your work, please consider citing:)
+
+[comment]: <> (```)
+
+[comment]: <> (@article{zha2023instance,)
+
+[comment]: <> (  title={Instance-aware Dynamic Prompt Tuning for Pre-trained Point Cloud Models},)
+
+[comment]: <> (  author={Zha, Yaohua and Wang, Jinpeng and Dai, Tao and Chen, Bin and Wang, Zhi and Xia, Shu-Tao},)
+
+[comment]: <> (  journal={arXiv preprint arXiv:2304.07221},)
+
+[comment]: <> (  year={2023})
+
+[comment]: <> (})
+
+[comment]: <> (```)
+
+[comment]: <> (and closely related work IDPT &#40;ICCV 2023&#41;:)
+
+[comment]: <> (```)
+
+[comment]: <> (@article{zha2023instance,)
+
+[comment]: <> (  title={Instance-aware Dynamic Prompt Tuning for Pre-trained Point Cloud Models},)
+
+[comment]: <> (  author={Zha, Yaohua and Wang, Jinpeng and Dai, Tao and Chen, Bin and Wang, Zhi and Xia, Shu-Tao},)
+
+[comment]: <> (  journal={arXiv preprint arXiv:2304.07221},)
+
+[comment]: <> (  year={2023})
+
+[comment]: <> (})
+
+[comment]: <> (```)
 
 ## 7. Acknowledgements
 
