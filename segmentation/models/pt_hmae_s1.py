@@ -42,9 +42,9 @@ def get_graph_feature(x, k=20, idx=None):
 
     return feature
 
-class GCNViewAdapter(nn.Module):
+class LEM(nn.Module):
     def __init__(self, dim=512, downrate=8, gcn_k=20):
-        super(GCNViewAdapter, self).__init__()
+        super(LEM, self).__init__()
         self.k = gcn_k
         self.dim = dim
         self.bn1 = nn.BatchNorm2d(self.dim//downrate)
@@ -235,7 +235,7 @@ class BlockH(nn.Module):
             dim, num_heads=num_heads, qkv_bias=qkv_bias, qk_scale=qk_scale, attn_drop=attn_drop, proj_drop=drop)
 
         if self.layer_index in self.ad_layers:
-            self.cls = GCNViewAdapter(dim, downrate=downrate, gcn_k=gcn_k)
+            self.cls = LEM(dim, downrate=downrate, gcn_k=gcn_k)
             self.cls_norm = norm_layer(dim)
 
     def forward(self, x, center_block):

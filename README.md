@@ -270,43 +270,29 @@ python parse_test_res.py ./ckpts/fewshot/fewshot --multi-exp --few-shot
 ```
 </details>
 
-[comment]: <> (## 6. Bibliography)
+## 6. Bibliography
 
-[comment]: <> (If you find this code useful or use the toolkit in your work, please consider citing:)
+If you find this code useful or use the toolkit in your work, please consider citing:
 
-[comment]: <> (```)
+```
+@article{zha2023towards,
+  title={Towards Compact 3D Representations via Point Feature Enhancement Masked Autoencoders},
+  author={Zha, Yaohua and Ji, Huizhen and Li, Jinmin and Li, Rongsheng and Dai, Tao and Chen, Bin and Wang, Zhi and Xia, Shu-Tao},
+  journal={arXiv preprint arXiv:2312.10726},
+  year={2023}
+}
+```
 
-[comment]: <> (@article{zha2023instance,)
+and closely related work IDPT (ICCV 2023):
 
-[comment]: <> (  title={Instance-aware Dynamic Prompt Tuning for Pre-trained Point Cloud Models},)
-
-[comment]: <> (  author={Zha, Yaohua and Wang, Jinpeng and Dai, Tao and Chen, Bin and Wang, Zhi and Xia, Shu-Tao},)
-
-[comment]: <> (  journal={arXiv preprint arXiv:2304.07221},)
-
-[comment]: <> (  year={2023})
-
-[comment]: <> (})
-
-[comment]: <> (```)
-
-[comment]: <> (and closely related work IDPT &#40;ICCV 2023&#41;:)
-
-[comment]: <> (```)
-
-[comment]: <> (@article{zha2023instance,)
-
-[comment]: <> (  title={Instance-aware Dynamic Prompt Tuning for Pre-trained Point Cloud Models},)
-
-[comment]: <> (  author={Zha, Yaohua and Wang, Jinpeng and Dai, Tao and Chen, Bin and Wang, Zhi and Xia, Shu-Tao},)
-
-[comment]: <> (  journal={arXiv preprint arXiv:2304.07221},)
-
-[comment]: <> (  year={2023})
-
-[comment]: <> (})
-
-[comment]: <> (```)
+```
+@article{zha2023instance,
+  title={Instance-aware Dynamic Prompt Tuning for Pre-trained Point Cloud Models},
+  author={Zha, Yaohua and Wang, Jinpeng and Dai, Tao and Chen, Bin and Wang, Zhi and Xia, Shu-Tao},
+  journal={arXiv preprint arXiv:2304.07221},
+  year={2023}
+}
+```
 
 ## 7. Acknowledgements
 
